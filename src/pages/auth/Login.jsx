@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react'
+import React, { useEffect } from 'react'
 //MUI neccessary imports
 import Input from '../../components/Input';
 import Container from '@mui/material/Container';
@@ -6,39 +6,51 @@ import Typography from '@mui/material/Typography';
 import Box from '@mui/material/Box';
 import Button from '@mui/material/Button';
 import Paper from '@mui/material/Paper';
+import Cookies from 'js-cookie';
 
 
 import { useFormik } from 'formik';
 import * as Yup from 'yup'
-import axios from 'axios';
+import { useNavigate } from 'react-router-dom';
+import httpService from '../../services/http';
+import "react-toastify/dist/ReactToastify.css";
+import { toast } from 'react-toastify';
 
 const initialValues = {
     email: "",
-    pass: ""
+    password: ""
 }
-const onSubmit = (values) => {
-    console.log(values);
-}
+
 const validationSchema = Yup.object({
     email: Yup.string().email('فرمت ایمیل اشتباه می باشد').required('لطفا ایمیل خود را وارد کنید'),
-    pass: Yup.string().required('لطفا رمز عبور خود را وارد کنید').min(8,"رمز عبور باید حداقل 8 کاراکتر باشد")
+    password: Yup.string().required('لطفا رمز عبور خود را وارد کنید').min(6, "رمز عبور باید حداقل 6 کاراکتر باشد")
 })
 
 const LoginPage = () => {
+    const navigate = useNavigate();
+
     const formik = useFormik({
         initialValues,
-        onSubmit,
+        onSubmit: async values => {
+            try {
+                const response = await httpService.login(values)
+                const { data } = response.data
+                const responseStatus = response.status
+                console.log(response);
+                if (data && responseStatus == 200) {
+                    console.log(data);
+                    const userToken = data?.accessToken
+                    Cookies.set('token', userToken)
+                    console.log(data);
+                    navigate('home')
+                    toast.success(data.message)
+                }
+            } catch (error) {
+                toast.error('ایمیل یا رمز عبور اشتباه می باشد')
+            }
+        },
         validationSchema,
     })
-
-    useEffect(()=>{
-        async function getAllUsers(){
-            const users = await axios.get('http://localhost:8008/api/users')
-            console.log(users.data);
-        }
-        getAllUsers()
-
-    },[])
 
     return (
         <Container maxWidth={false} sx={{ backgroundColor: '#F1F1F1', width: '100%' }}>
@@ -67,13 +79,13 @@ const LoginPage = () => {
                         >
                         </Input>
                         <Input
-                            name='pass'
-                            value={formik.pass}
-                            placeholder={formik.errors.pass && formik.touched.pass ? formik.errors.pass : 'رمز عبور'}
+                            name='password'
+                            value={formik.password}
+                            placeholder={formik.errors.password && formik.touched.password ? formik.errors.password : 'رمز عبور'}
                             type='text'
                             onChange={formik.handleChange}
                             onBlur={formik.handleBlur}
-                            hasError={formik.errors.pass && formik.touched.pass}
+                            hasError={formik.errors.password && formik.touched.pass}
                         >
                         </Input>
                         <Button variant='contained' type='submit'>ورود</Button>
