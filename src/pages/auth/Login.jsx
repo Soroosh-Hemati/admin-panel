@@ -36,9 +36,7 @@ const LoginPage = () => {
                 const response = await httpService.login(values)
                 const { data } = response.data
                 const responseStatus = response.status
-                console.log(response);
                 if (data && responseStatus == 200) {
-                    console.log(data);
                     const userToken = data?.accessToken
                     Cookies.set('token', userToken)
                     console.log(data);
