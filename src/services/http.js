@@ -12,7 +12,7 @@ const axiosInstance = axios.create({
 // Request Interceptor
 axiosInstance.interceptors.request.use(
   (config) => {
-    console.log("Request Interceptor:", config);
+    // console.log("Request Interceptor:", config);
     let token = Cookies.get("token");
     if (token) {
       config.headers["Authorization"] = `Bearer ${token}`;
@@ -25,7 +25,7 @@ axiosInstance.interceptors.request.use(
 // Response Interceptor
 axiosInstance.interceptors.response.use(
   (response) => {
-    console.log("Response Interceptor:", response);
+    // console.log("Response Interceptor:", response);
     return response;
   },
   (error) => {

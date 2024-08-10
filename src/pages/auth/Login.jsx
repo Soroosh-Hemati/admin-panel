@@ -40,7 +40,7 @@ const LoginPage = () => {
                     const userToken = data?.accessToken
                     Cookies.set('token', userToken)
                     console.log(data);
-                    navigate('home')
+                    navigate('app')
                     toast.success(data.message)
                 }
             } catch (error) {

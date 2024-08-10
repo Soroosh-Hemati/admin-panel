@@ -10,6 +10,7 @@ import HomePage from './pages/home';
 import ProductsPage from './pages/products';
 import Product from './pages/products/SingleProduct';
 import ErrorPage from './pages/error-page';
+import Layout from './components/Layout';
 
 const router = createBrowserRouter([
   {
@@ -18,20 +19,27 @@ const router = createBrowserRouter([
     errorElement: <ErrorPage />,
   },
   {
-    path: "/home",
-    element: <HomePage />,
+    path: "app",
+    element: <Layout />,
     errorElement: <ErrorPage />,
-  },
-  {
-    path: "/products",
-    element: <ProductsPage />,
-    errorElement: <ErrorPage />,
-  },
-  {
-    path: "/products/:productID",
-    element: <Product />,
-    errorElement: <ErrorPage />,
-  },
+    children: [
+      {
+        index: true,
+        element: <HomePage />,
+        errorElement: <ErrorPage />,
+      },
+      {
+        path: "products",
+        element: <ProductsPage />,
+        errorElement: <ErrorPage />,
+      },
+      {
+        path: "products/:productID",
+        element: <Product />,
+        errorElement: <ErrorPage />,
+      },
+    ]
+  }
 ]);
 
 export default function App() {
