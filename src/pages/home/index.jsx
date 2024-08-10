@@ -7,7 +7,7 @@ import Box from '@mui/material/Box';
 const HomePage = () => {
     return (
         <>
-            <Typography variant='h1'>خوش آمدید</Typography> 
+            <Typography variant='h5'>خوش آمدید</Typography> 
         </>
     )
 }
