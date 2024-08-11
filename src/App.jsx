@@ -11,6 +11,9 @@ import ProductsPage from './pages/products';
 import Product from './pages/products/SingleProduct';
 import ErrorPage from './pages/error-page';
 import Layout from './components/Layout';
+import CategoriesPage from './pages/categories';
+import ArticlesPage from './pages/articles';
+import UsersPage from './pages/users';
 
 const router = createBrowserRouter([
   {
@@ -29,8 +32,23 @@ const router = createBrowserRouter([
         errorElement: <ErrorPage />,
       },
       {
+        path: "categories",
+        element: <CategoriesPage />,
+        errorElement: <ErrorPage />,
+      },
+      {
         path: "products",
         element: <ProductsPage />,
+        errorElement: <ErrorPage />,
+      },
+      {
+        path: "articles",
+        element: <ArticlesPage />,
+        errorElement: <ErrorPage />,
+      },
+      {
+        path: "users",
+        element: <UsersPage />,
         errorElement: <ErrorPage />,
       },
       {

@@ -1,8 +1,13 @@
-import React from 'react'
+import { Box, Typography } from '@mui/material'
 
 const ProductsPage = () => {
     return (
-        <div>Products Page</div>
+        <><Box>
+        <Typography variant="h6" color="secondary">لیست محصولات</Typography>
+  
+  
+      </Box>
+      </>
     )
 }
 
