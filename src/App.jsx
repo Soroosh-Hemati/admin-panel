@@ -14,6 +14,10 @@ import Layout from './components/Layout';
 import CategoriesPage from './pages/categories';
 import ArticlesPage from './pages/articles';
 import UsersPage from './pages/users';
+import AddNewCategory from './pages/categories/AddNewCategory';
+import AddNewProduct from './pages/products/AddNewProduct'
+import AddNewArticle from './pages/articles/AddNewArticle';
+import AddNewUser from './pages/users/AddNewUser'
 
 const router = createBrowserRouter([
   {
@@ -37,9 +41,17 @@ const router = createBrowserRouter([
         errorElement: <ErrorPage />,
       },
       {
+        path: '/app/categories/addNewCategory',
+        element: <AddNewCategory />
+      },
+      {
         path: "products",
         element: <ProductsPage />,
         errorElement: <ErrorPage />,
+      },
+      {
+        path: '/app/products/addNewProduct',
+        element: <AddNewProduct />
       },
       {
         path: "articles",
@@ -47,15 +59,23 @@ const router = createBrowserRouter([
         errorElement: <ErrorPage />,
       },
       {
+        path: '/app/articles/addNewArticle',
+        element: <AddNewArticle />
+      },
+      {
         path: "users",
         element: <UsersPage />,
         errorElement: <ErrorPage />,
       },
       {
+        path: '/app/users/addNewUser',
+        element: <AddNewUser />
+      },
+      {
         path: "products/:productID",
         element: <Product />,
         errorElement: <ErrorPage />,
-      },
+      }
     ]
   }
 ]);

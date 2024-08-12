@@ -12,7 +12,7 @@ const axiosInstance = axios.create({
 // Request Interceptor
 axiosInstance.interceptors.request.use(
   (config) => {
-    // console.log("Request Interceptor:", config);
+    console.log("Request Interceptor:", config);
     let token = Cookies.get("token");
     if (token) {
       config.headers["Authorization"] = `Bearer ${token}`;
@@ -32,6 +32,8 @@ axiosInstance.interceptors.response.use(
     console.error("Response Interceptor Error:", error);
     if (error.response && error.response.status === 401) {
       console.warn("Unauthorized - Redirect to login");
+      Cookies.remove("token");
+      window.location.replace("/");
     }
 
     return Promise.reject(error);
