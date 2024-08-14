@@ -1,4 +1,4 @@
-import { Box, Button, Paper, Table, TableCell, TableContainer, TableHead, TableRow, Toolbar, Typography } from "@mui/material"
+import { Box, Button, Paper, Table, TableBody, TableCell, TableContainer, TableHead, TableRow, Toolbar, Typography } from "@mui/material"
 import { useEffect, useState } from "react"
 import { Link } from "react-router-dom"
 import httpService from "../../services/http"
@@ -32,9 +32,25 @@ function CategoriesPage() {
             <TableCell align="right" sx={{ fontWeight: 'bold' }}>تصویر</TableCell>
             <TableCell align="right" sx={{ fontWeight: 'bold' }}>تاریخ ایجاد</TableCell>
             <TableCell align="right" sx={{ fontWeight: 'bold' }}>تاریخ بروزرسانی</TableCell>
-            <TableCell align="right" sx={{ fontWeight: 'bold' }}>عملیات</TableCell>
+            <TableCell align="center" sx={{ fontWeight: 'bold' }}></TableCell>
           </TableRow>
         </TableHead>
+        <TableBody>
+          {categories.map((category) => {
+            return <TableRow key={category.id}>
+              <TableCell align="right">{category.name}</TableCell>
+              <TableCell align="right">{category.description}</TableCell>
+              <TableCell align="right">{<img style={{ width: '80px', height: '50px', borderRadius: '8px', objectFit: 'cover', border: '1px solid #ddd' }} src={`${category.url}`} />}</TableCell>
+              <TableCell align="right">{new Date(category.createdAt).toLocaleDateString('fa')}</TableCell>
+              <TableCell align="right">{new Date(category.updatedAt).toLocaleDateString('fa')}</TableCell>
+              <TableCell align="center">{<Toolbar>
+                <Button variant="contained" color="success" sx={{ marginLeft: '1rem' }}>ویرایش</Button>
+                <Button variant="contained" color="error">حذف</Button>
+              </Toolbar>}
+              </TableCell>
+            </TableRow>
+          })}
+        </TableBody>
       </Table>
     </TableContainer>
   </Box>

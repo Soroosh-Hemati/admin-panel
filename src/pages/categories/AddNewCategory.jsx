@@ -35,7 +35,7 @@ function AddNewCategory() {
     try {
       const { data } = await httpService.addNewCategory(formData)
       // console.log(data);
-      toast.success(`${data.data[0].message}`);
+      toast.success(data.data[0].message);
     } catch (error) {
       // console.error('Error:', error.response ? error.response.data : error.message);
       toast.error(error.response.data.messages[0].message);
