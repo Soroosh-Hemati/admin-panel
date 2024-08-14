@@ -1,11 +1,23 @@
-import { Box, Button, Paper, Table, TableBody, TableCell, TableContainer, TableHead, TableRow, Toolbar, Typography } from "@mui/material"
+import { Box, Button, Modal, Paper, Table, TableBody, TableCell, TableContainer, TableHead, TableRow, Toolbar, Typography } from "@mui/material"
 import { useEffect, useState } from "react"
-import { Link } from "react-router-dom"
+import { Link, useParams } from "react-router-dom"
 import httpService from "../../services/http"
+import ModalPrimary from "../../components/ModalPrimary";
 
 
 function CategoriesPage() {
   const [categories, setCategotries] = useState([]);
+  const [open, setOpen] = useState(false)
+  const [selectedCategory, setSelectedCategory] = useState(null)
+
+  const handleOpen = (category) => {
+    setSelectedCategory(category)
+    setOpen(true) 
+  }
+  const handleClose = () => {
+    setOpen(false)
+    setSelectedCategory(null)
+  }
 
   useEffect(() => {
     const fetchCategories = async () => {
@@ -15,7 +27,23 @@ function CategoriesPage() {
     fetchCategories();
   }, [])
 
-  console.log(categories);
+  const handleDeleteCategory = async () => {
+    if (selectedCategory) {
+      try {
+        const res = await httpService.deleteCategory(selectedCategory.id);
+        console.log('Category deleted:', res);
+        handleClose();
+        setCategotries((prevCategories) =>
+          prevCategories.filter(category => category.id !== selectedCategory.id)
+        );
+      } catch (error) {
+        console.error('Error deleting category:', error);
+      }
+    } else {
+      console.error('No category selected for deletion');
+    }
+  }
+
 
   return <Box>
     <Typography variant="h6" color="secondary">لیست دسته بندی ها</Typography>
@@ -45,7 +73,7 @@ function CategoriesPage() {
               <TableCell align="right">{new Date(category.updatedAt).toLocaleDateString('fa')}</TableCell>
               <TableCell align="center">{<Toolbar>
                 <Button variant="contained" color="success" sx={{ marginLeft: '1rem' }}>ویرایش</Button>
-                <Button variant="contained" color="error">حذف</Button>
+                <Button variant="contained" color="error" onClick={() => handleOpen(category)}>حذف</Button>
               </Toolbar>}
               </TableCell>
             </TableRow>
@@ -53,6 +81,7 @@ function CategoriesPage() {
         </TableBody>
       </Table>
     </TableContainer>
+    <ModalPrimary open={open} onClose={handleClose} handleClose={handleClose} handleDelete={handleDeleteCategory} />
   </Box>
 
 

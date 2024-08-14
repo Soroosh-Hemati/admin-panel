@@ -34,6 +34,9 @@ function AddNewCategory() {
 
     try {
       const { data } = await httpService.addNewCategory(formData)
+      setCategoryTitle('')
+      setCategoryImage(null)
+      setCategoryDesc('')
       // console.log(data);
       toast.success(data.data[0].message);
     } catch (error) {

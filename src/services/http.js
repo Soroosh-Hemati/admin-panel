@@ -47,6 +47,8 @@ const httpService = {
   getAllCategories: async () => await axiosInstance.get("category"),
   addNewCategory: async (data) =>
     await axiosInstance.post("create-category", data),
+  deleteCategory: async (id) =>
+    await axiosInstance.delete(`delete-category/${id}`),
 };
 
 export default httpService;
