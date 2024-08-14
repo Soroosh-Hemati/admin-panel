@@ -1,7 +1,21 @@
 import { Box, Button, Paper, Table, TableCell, TableContainer, TableHead, TableRow, Toolbar, Typography } from "@mui/material"
+import { useEffect, useState } from "react"
 import { Link } from "react-router-dom"
+import httpService from "../../services/http"
+
 
 function CategoriesPage() {
+  const [categories, setCategotries] = useState([]);
+
+  useEffect(() => {
+    const fetchCategories = async () => {
+      const { data } = await httpService.getAllCategories();
+      setCategotries(data.data)
+    }
+    fetchCategories();
+  }, [])
+
+  console.log(categories);
 
   return <Box>
     <Typography variant="h6" color="secondary">لیست دسته بندی ها</Typography>
