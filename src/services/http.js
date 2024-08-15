@@ -52,6 +52,9 @@ const httpService = {
   getSingleCategory: async (id) => await axiosInstance.get(`category/${id}`),
   editCategory: async (id, data) =>
     await axiosInstance.put(`update-category/${id}`, data),
+  addNewProduct: async (data) =>
+    await axiosInstance.post("create_product", data),
+  deleteProduct: async (id) => await axiosInstance.delete(`product/${id}`),
 };
 
 export default httpService;
