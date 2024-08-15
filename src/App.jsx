@@ -18,6 +18,7 @@ import AddNewCategory from './pages/categories/AddNewCategory';
 import AddNewProduct from './pages/products/AddNewProduct'
 import AddNewArticle from './pages/articles/AddNewArticle';
 import AddNewUser from './pages/users/AddNewUser'
+import SingleCategory from './pages/categories/SingleCategory';
 
 const router = createBrowserRouter([
   {
@@ -33,12 +34,12 @@ const router = createBrowserRouter([
       {
         index: true,
         element: <HomePage />,
-        errorElement: <ErrorPage />,
+
       },
       {
         path: "categories",
         element: <CategoriesPage />,
-        errorElement: <ErrorPage />,
+
       },
       {
         path: '/app/categories/addNewCategory',
@@ -47,7 +48,6 @@ const router = createBrowserRouter([
       {
         path: "products",
         element: <ProductsPage />,
-        errorElement: <ErrorPage />,
       },
       {
         path: '/app/products/addNewProduct',
@@ -56,7 +56,7 @@ const router = createBrowserRouter([
       {
         path: "articles",
         element: <ArticlesPage />,
-        errorElement: <ErrorPage />,
+
       },
       {
         path: '/app/articles/addNewArticle',
@@ -65,7 +65,7 @@ const router = createBrowserRouter([
       {
         path: "users",
         element: <UsersPage />,
-        errorElement: <ErrorPage />,
+
       },
       {
         path: '/app/users/addNewUser',
@@ -74,7 +74,10 @@ const router = createBrowserRouter([
       {
         path: "products/:productID",
         element: <Product />,
-        errorElement: <ErrorPage />,
+      },
+      {
+        path: 'categories/:categoryID',
+        element: <SingleCategory />
       }
     ]
   }

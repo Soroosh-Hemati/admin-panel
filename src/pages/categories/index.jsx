@@ -1,6 +1,6 @@
 import { Box, Button, Modal, Paper, Table, TableBody, TableCell, TableContainer, TableHead, TableRow, Toolbar, Typography } from "@mui/material"
 import { useEffect, useState } from "react"
-import { Link, useParams } from "react-router-dom"
+import { Link } from "react-router-dom"
 import httpService from "../../services/http"
 import ModalPrimary from "../../components/ModalPrimary";
 
@@ -12,7 +12,7 @@ function CategoriesPage() {
 
   const handleOpen = (category) => {
     setSelectedCategory(category)
-    setOpen(true) 
+    setOpen(true)
   }
   const handleClose = () => {
     setOpen(false)
@@ -43,6 +43,12 @@ function CategoriesPage() {
       console.error('No category selected for deletion');
     }
   }
+  const truncateText = (text, maxLength) => {
+    if (text.length > maxLength) {
+      return text.substring(0, maxLength) + '...';
+    }
+    return text;
+  };
 
 
   return <Box>
@@ -67,12 +73,12 @@ function CategoriesPage() {
           {categories.map((category) => {
             return <TableRow key={category.id}>
               <TableCell align="right">{category.name}</TableCell>
-              <TableCell align="right">{category.description}</TableCell>
+              <TableCell align="right">{truncateText(category.description, 20)}</TableCell>
               <TableCell align="right">{<img style={{ width: '80px', height: '50px', borderRadius: '8px', objectFit: 'cover', border: '1px solid #ddd' }} src={`${category.url}`} />}</TableCell>
               <TableCell align="right">{new Date(category.createdAt).toLocaleDateString('fa')}</TableCell>
               <TableCell align="right">{new Date(category.updatedAt).toLocaleDateString('fa')}</TableCell>
               <TableCell align="center">{<Toolbar>
-                <Button variant="contained" color="success" sx={{ marginLeft: '1rem' }}>ویرایش</Button>
+                <Button component={Link} to={`/app/categories/${category.id}`} variant="contained" color="success" sx={{ marginLeft: '1rem' }}>ویرایش</Button>
                 <Button variant="contained" color="error" onClick={() => handleOpen(category)}>حذف</Button>
               </Toolbar>}
               </TableCell>
