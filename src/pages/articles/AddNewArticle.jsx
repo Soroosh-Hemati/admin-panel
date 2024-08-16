@@ -4,6 +4,7 @@ import InputSecondary from "../../components/InputSecondary"
 import InputFile from "../../components/InputFile"
 import httpService from "../../services/http"
 import { toast } from "react-toastify"
+import { useNavigate } from "react-router-dom"
 
 
 function AddNewArticle() {
@@ -11,6 +12,7 @@ function AddNewArticle() {
   const [articleContent, setArticleContent] = useState('')
   const [articleImage, setArticleImage] = useState(null)
   const [hasError, setHasError] = useState(false);
+  const navigate = useNavigate();
 
   const handleFilechange = (e) => {
     const file = e.target.files[0];
@@ -40,6 +42,7 @@ function AddNewArticle() {
       setArticleContent('')
       // console.log(data);
       toast.success(data.data[0].message);
+      navigate('/app/articles')
     } catch (error) {
       // console.error('Error:', error.response ? error.response.data : error.message);
       toast.error(error.response.data.messages[0].message);

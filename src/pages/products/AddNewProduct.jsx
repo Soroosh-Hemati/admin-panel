@@ -5,6 +5,7 @@ import { useEffect, useState } from "react"
 import httpService from "../../services/http"
 import DropboxPrimary from "../../components/DropboxPrimary"
 import { toast } from "react-toastify"
+import { useNavigate } from "react-router-dom"
 
 
 function AddNewProduct() {
@@ -14,6 +15,7 @@ function AddNewProduct() {
   const [categories, setCategotries] = useState([]);
   const [hasError, setHasError] = useState(false);
   const [selectedCategoryId, setSelectedCategoryId] = useState(null)
+  const navigate = useNavigate();
 
   useEffect(() => {
     const fetchCategories = async () => {
@@ -54,6 +56,7 @@ function AddNewProduct() {
       setProductDesc('')
       // console.log(data);
       toast.success(data.data[0].message);
+      navigate('/app/products')
     } catch (error) {
       // console.error('Error:', error.response ? error.response.data : error.message);
       toast.error(error.response.data.messages[0].message);

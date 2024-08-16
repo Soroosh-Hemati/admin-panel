@@ -43,7 +43,6 @@ axiosInstance.interceptors.response.use(
 
 const httpService = {
   login: async (data) => await axiosInstance.post("users/login", data),
-  getAllProducts: async () => await axiosInstance.get("products"),
   getAllCategories: async () => await axiosInstance.get("category"),
   addNewCategory: async (data) =>
     await axiosInstance.post("create-category", data),
@@ -52,8 +51,12 @@ const httpService = {
   getSingleCategory: async (id) => await axiosInstance.get(`category/${id}`),
   editCategory: async (id, data) =>
     await axiosInstance.put(`update-category/${id}`, data),
+  getAllProducts: async () => await axiosInstance.get("products"),
+  getSingleProduct: async (id) => await axiosInstance.get(`product/${id}`),
   addNewProduct: async (data) =>
     await axiosInstance.post("create_product", data),
+  editProduct: async (id, data) =>
+    await axiosInstance.put(`product/${id}`, data),
   deleteProduct: async (id) => await axiosInstance.delete(`product/${id}`),
   addNewArticle: async (data) =>
     await axiosInstance.post("create_articles", data),
