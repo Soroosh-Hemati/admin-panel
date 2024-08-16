@@ -19,6 +19,7 @@ import AddNewProduct from './pages/products/AddNewProduct'
 import AddNewArticle from './pages/articles/AddNewArticle';
 import AddNewUser from './pages/users/AddNewUser'
 import SingleCategory from './pages/categories/SingleCategory';
+import SingleArticle from './pages/articles/SingleArticle';
 
 const router = createBrowserRouter([
   {
@@ -78,6 +79,10 @@ const router = createBrowserRouter([
       {
         path: 'categories/:categoryID',
         element: <SingleCategory />
+      },
+      {
+        path: 'articles/:articleID',
+        element: <SingleArticle />
       }
     ]
   }

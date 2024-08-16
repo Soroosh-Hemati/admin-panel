@@ -8,9 +8,9 @@ import { toast } from "react-toastify"
 
 
 function AddNewProduct() {
-  const [productTitle, setproductTitle] = useState('')
-  const [productImage, setproductImage] = useState(null)
-  const [productDesc, setproductDesc] = useState('')
+  const [productTitle, setProductTitle] = useState('')
+  const [productImage, setProductImage] = useState(null)
+  const [productDesc, setProductDesc] = useState('')
   const [categories, setCategotries] = useState([]);
   const [hasError, setHasError] = useState(false);
   const [selectedCategoryId, setSelectedCategoryId] = useState(null)
@@ -27,7 +27,7 @@ function AddNewProduct() {
   const handleFilechange = (e) => {
     const file = e.target.files[0];
     if (file) {
-      setproductImage(file)
+      setProductImage(file)
     }
   }
 
@@ -49,9 +49,9 @@ function AddNewProduct() {
 
     try {
       const { data } = await httpService.addNewProduct(formData)
-      setproductTitle('')
-      setproductImage(null)
-      setproductDesc('')
+      setProductTitle('')
+      setProductImage(null)
+      setProductDesc('')
       // console.log(data);
       toast.success(data.data[0].message);
     } catch (error) {
@@ -69,10 +69,10 @@ function AddNewProduct() {
     <Box>
       <Typography variant="h6" color="secondary">اضافه کردن محصول</Typography>
       <Box component='form' onSubmit={handleSubmit} sx={{ display: "flex", flexDirection: 'column', justifyContent: 'center', alignItems: "center" }}>
-        <InputSecondary placeholder='نام محصول' value={productTitle} type='text' onChange={(e) => setproductTitle(e.target.value)} hasError={hasError} />
+        <InputSecondary placeholder='نام محصول' value={productTitle} type='text' onChange={(e) => setProductTitle(e.target.value)} hasError={hasError} multiline={false} />
         <DropboxPrimary categories={categories} onValueChange={handleCategoryChange} />
         <InputFile helperText='عکس محصول را وارد کنید' type='file' onChange={handleFilechange} hasError={hasError} />
-        <InputSecondary placeholder='توضیحات' value={productDesc} type='text' onChange={(e) => setproductDesc(e.target.value)} hasError={hasError} />
+        <InputSecondary placeholder='توضیحات' value={productDesc} type='text' onChange={(e) => setProductDesc(e.target.value)} hasError={hasError} multiline={false} />
         <Button variant='contained' type='submit'>ایجاد دسته بندی</Button>
       </Box>
     </Box>

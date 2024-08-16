@@ -49,9 +49,9 @@ function AddNewCategory() {
   return <Box>
     <Typography variant="h6" color="secondary">ایجاد دسته بندی</Typography>
     <Box component='form' onSubmit={handleSubmit} sx={{ display: "flex", flexDirection: 'column', justifyContent: 'center', alignItems: "center" }}>
-      <InputSecondary placeholder='نام دسته بندی' value={categoryTitle} type='text' onChange={(e) => setCategoryTitle(e.target.value)} hasError={hasError} />
+      <InputSecondary placeholder='نام دسته بندی' value={categoryTitle} type='text' onChange={(e) => setCategoryTitle(e.target.value)} hasError={hasError} multiline={false}/>
       <InputFile helperText='عکس دسته بندی را وارد کنید' type='file' onChange={handleFilechange} hasError={hasError} />
-      <InputSecondary placeholder='توضیحات' value={categoryDesc} type='text' onChange={(e) => setCategoryDesc(e.target.value)} hasError={hasError} />
+      <InputSecondary placeholder='توضیحات' value={categoryDesc} type='text' onChange={(e) => setCategoryDesc(e.target.value)} hasError={hasError} multiline={false}/>
       <Button variant='contained' type='submit'>ایجاد دسته بندی</Button>
     </Box>
   </Box>

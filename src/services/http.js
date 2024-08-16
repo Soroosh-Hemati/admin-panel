@@ -55,6 +55,13 @@ const httpService = {
   addNewProduct: async (data) =>
     await axiosInstance.post("create_product", data),
   deleteProduct: async (id) => await axiosInstance.delete(`product/${id}`),
+  addNewArticle: async (data) =>
+    await axiosInstance.post("create_articles", data),
+  getAllArticles: async () => await axiosInstance.get("articles"),
+  deleteArticle: async (id) => await axiosInstance.delete(`article/${id}`),
+  getSingleArticle: async (id) => await axiosInstance.get(`article/${id}`),
+  editArticle: async (id, data) =>
+    await axiosInstance.put(`article/${id}`, data),
 };
 
 export default httpService;
