@@ -73,6 +73,7 @@ const httpService = {
       "Content-Type": "application/json",
     });
   },
+  getSingleUser: async (id) => await axiosInstance.get(`users/user/${id}`),
 };
 
 export default httpService;

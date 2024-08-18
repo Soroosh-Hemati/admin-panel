@@ -7,22 +7,27 @@ import httpService from "../../services/http"
 import { useNavigate } from "react-router-dom"
 
 function AddNewCategory() {
-  const [categoryTitle, setCategoryTitle] = useState('')
-  const [categoryImage, setCategoryImage] = useState(null)
-  const [categoryDesc, setCategoryDesc] = useState('')
-  const [hasError, setHasError] = useState(false);
   const navigate = useNavigate();
+  const [category, setCategory] = useState({
+    title: '',
+    desc: '',
+    file: null
+  })
+  const [hasError, setHasError] = useState(false);
 
   const handleFilechange = (e) => {
     const file = e.target.files[0];
     if (file) {
-      setCategoryImage(file)
+      setCategory(prevCategory => ({
+        ...prevCategory,
+        file
+      }))
     }
   }
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-    if (!categoryTitle || !categoryDesc || !categoryImage) {
+    if (!category.title || !category.desc || !category.file) {
       setHasError(true)
       toast.error('فیلد موردنظر را تکمیل کنید')
       return
@@ -30,15 +35,17 @@ function AddNewCategory() {
     setHasError(false)
     //form data
     const formData = new FormData();
-    formData.append('name', categoryTitle);
-    formData.append('description', categoryDesc);
-    formData.append('file', categoryImage);
+    formData.append('name', category.title);
+    formData.append('description', category.desc);
+    formData.append('file', category.file);
 
     try {
       const { data } = await httpService.addNewCategory(formData)
-      setCategoryTitle('')
-      setCategoryImage(null)
-      setCategoryDesc('')
+      setCategory({
+        title: '',
+        desc: '',
+        file: null
+      })
       // console.log(data);
       toast.success(data.data[0].message);
       navigate('/app/categories')
@@ -52,9 +59,32 @@ function AddNewCategory() {
   return <Box>
     <Typography variant="h6" color="secondary">ایجاد دسته بندی</Typography>
     <Box component='form' onSubmit={handleSubmit} sx={{ display: "flex", flexDirection: 'column', justifyContent: 'center', alignItems: "center" }}>
-      <InputSecondary placeholder='نام دسته بندی' value={categoryTitle} type='text' onChange={(e) => setCategoryTitle(e.target.value)} hasError={hasError} multiline={false} name='' />
-      <InputFile helperText='عکس دسته بندی را وارد کنید' type='file' onChange={handleFilechange} hasError={hasError} />
-      <InputSecondary placeholder='توضیحات' value={categoryDesc} type='text' onChange={(e) => setCategoryDesc(e.target.value)} hasError={hasError} multiline={false} name='' />
+      <InputSecondary
+        placeholder='نام دسته بندی'
+        value={category.title} type='text'
+        onChange={(e) => setCategory(prevCategory => ({
+          ...prevCategory,
+          title: e.target.value
+        }))}
+        hasError={hasError}
+        multiline={false}
+        name='' />
+      <InputFile
+        helperText='عکس دسته بندی را وارد کنید'
+        type='file'
+        onChange={handleFilechange}
+        hasError={hasError} />
+      <InputSecondary
+        placeholder='توضیحات'
+        value={category.desc}
+        type='text'
+        onChange={(e) => setCategory(prevCategory => ({
+          ...prevCategory,
+          desc: e.target.value
+        }))}
+        hasError={hasError}
+        multiline={false}
+        name='' />
       <Button variant='contained' type='submit'>ایجاد دسته بندی</Button>
     </Box>
   </Box>

@@ -3,6 +3,7 @@ import { useEffect, useState } from "react"
 import { Link } from "react-router-dom"
 import httpService from "../../services/http"
 import ModalPrimary from "../../components/ModalPrimary";
+import { toast } from "react-toastify";
 
 
 function CategoriesPage() {
@@ -28,19 +29,20 @@ function CategoriesPage() {
   }, [])
 
   const handleDeleteCategory = async () => {
-    if (selectedCategory) { 
+    if (selectedCategory) {
       try {
-        const res = await httpService.deleteCategory(selectedCategory.id);
-        console.log('Category deleted:', res);
+        const { data } = await httpService.deleteCategory(selectedCategory.id);
+        console.log('Category deleted:', data);
         handleClose();
         setCategotries((prevCategories) =>
           prevCategories.filter(category => category.id !== selectedCategory.id)
         );
       } catch (error) {
-        console.error('Error deleting category:', error);
+        toast.error(error.response.data.messages[0].message);
+        setOpen(false)
       }
     } else {
-      console.error('No category selected for deletion');
+      toast.error('دسته بندی ای برای حذف انتخاب نشده است');
     }
   }
   const truncateText = (text, maxLength) => {

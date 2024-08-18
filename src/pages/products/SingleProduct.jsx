@@ -9,13 +9,24 @@ import { toast } from 'react-toastify';
 
 const Product = () => {
     const { productID } = useParams();
-    const [productTitle, setProductTitle] = useState('')
-    const [productImage, setProductImage] = useState(null)
-    const [productDesc, setProductDesc] = useState('')
-    const [categories, setCategotries] = useState([]);
-    const [hasError, setHasError] = useState(false);
     const navigate = useNavigate();
-    const [selectedCategoryId, setSelectedCategoryId] = useState(0)
+    const [categories, setCategotries] = useState([]);
+    const [product, setProduct] = useState({
+        id: null,
+        userId: null,
+        catId: null,
+        title: '',
+        image: '',
+        url: '',
+        content: '',
+        createdAt: '',
+        updatedAt: '',
+        categoryId: null,
+        category: {
+            name: ''
+        }
+    })
+    const [hasError, setHasError] = useState(false);
 
     useEffect(() => {
         const fetchCategories = async () => {
@@ -25,10 +36,7 @@ const Product = () => {
         const fetchSingleProduct = async () => {
             const { data } = await httpService.getSingleProduct(productID);
             if (data.data) {
-                setProductTitle(data.data.title)
-                // setSelectedCategoryId(data.data.catId)
-                setProductDesc(data.data.description)
-                setProductImage(data.data.image)
+                setProduct(data.data)
             }
         }
         fetchCategories();
@@ -38,13 +46,16 @@ const Product = () => {
     const handleFilechange = (e) => {
         const file = e.target.files[0];
         if (file) {
-            setProductImage(file)
+            setProduct(prevProduct => ({
+                ...prevProduct,
+                image: file,
+            }))
         }
     }
 
     const handleSubmit = async (e) => {
         e.preventDefault();
-        if (!productTitle || !productDesc || !productImage || !selectedCategoryId) {
+        if (!product.title || !product.content || !product.image || !product.catId) {
             setHasError(true)
             toast.error('فیلد موردنظر را تکمیل کنید')
             return
@@ -52,17 +63,29 @@ const Product = () => {
         setHasError(false)
         //form data
         const formData = new FormData();
-        formData.append('title', productTitle);
-        formData.append('content', productDesc);
+        formData.append('title', product.title);
+        formData.append('content', product.content);
         formData.append('userId', '4')
-        formData.append('catId', selectedCategoryId)
-        formData.append('file', productImage);
+        formData.append('catId', product.catId)
+        formData.append('file', product.image);
 
         try {
             const { data } = await httpService.editProduct(productID, formData)
-            setProductTitle('')
-            setProductImage(null)
-            setProductDesc('')
+            setProduct({
+                id: null,
+                userId: null,
+                catId: null,
+                title: '',
+                image: '',
+                url: '',
+                content: '',
+                createdAt: '',
+                updatedAt: '',
+                categoryId: null,
+                category: {
+                    name: ''
+                }
+            })
             // console.log(data);
             toast.success(data.data[0].message);
             navigate('/app/products')
@@ -74,17 +97,53 @@ const Product = () => {
     }
 
     const handleCategoryChange = (categoryId) => {
-        setSelectedCategoryId(categoryId)
+        setProduct(prevCategory => ({
+            ...prevCategory,
+            catId: categoryId
+        }))
         console.log("Selected Category ID:", categoryId);
     }
 
 
     return (
-        <Box component='form' onSubmit={handleSubmit} sx={{ display: "flex", flexDirection: 'column', justifyContent: 'center', alignItems: "center" }}>
-            <InputSecondary placeholder='نام محصول' value={productTitle} type='text' onChange={(e) => setProductTitle(e.target.value)} hasError={hasError} multiline={false} />
-            <DropboxPrimary categories={categories} onValueChange={handleCategoryChange} />
-            <InputFile helperText='عکس محصول را وارد کنید' type='file' onChange={handleFilechange} hasError={hasError} />
-            <InputSecondary placeholder='توضیحات' value={productDesc} type='text' onChange={(e) => setProductDesc(e.target.value)} hasError={hasError} multiline={false} />
+        <Box
+            component='form'
+            onSubmit={handleSubmit}
+            sx={{
+                display: "flex",
+                flexDirection: 'column',
+                justifyContent: 'center',
+                alignItems: "center"
+            }}>
+            <InputSecondary
+                placeholder='نام محصول'
+                value={product.title}
+                type='text'
+                onChange={(e) => setProduct(prevProduct => ({
+                    ...prevProduct,
+                    title: e.target.value
+                }))}
+                hasError={hasError}
+                multiline={false} />
+            <DropboxPrimary
+                value={product.catId}
+                categories={categories}
+                onValueChange={handleCategoryChange} />
+            <InputFile
+                helperText='عکس محصول را وارد کنید'
+                type='file'
+                onChange={handleFilechange}
+                hasError={hasError} />
+            <InputSecondary
+                placeholder='توضیحات'
+                value={product.content}
+                type='text'
+                onChange={(e) => setProduct(prevProduct => ({
+                    ...prevProduct,
+                    content: e.target.value
+                }))}
+                hasError={hasError}
+                multiline={false} />
             <Button variant='contained' type='submit'>ویرایش دسته بندی</Button>
         </Box>
     )

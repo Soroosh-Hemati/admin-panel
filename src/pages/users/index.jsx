@@ -20,8 +20,9 @@ function UsersPage() {
   const handleDeleteUser = async () => {
     if (selectedUser) {
       try {
-        const res = await httpService.deleteUser(selectedUser.id);
-        console.log('Category deleted:', res);
+        const { data } = await httpService.deleteUser(selectedUser.id);
+        toast.success(data.data[0].message);
+        console.log('Category deleted:', data.data[0]);
         handleClose();
         setUsers((prevUsers) =>
           prevUsers.filter(user => user.id !== selectedUser.id)

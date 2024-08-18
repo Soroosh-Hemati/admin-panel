@@ -27,10 +27,11 @@ const ProductsPage = () => {
           prevProducts.filter(products => products.id !== selectedProduct.id)
         );
       } catch (error) {
-        console.error('Error deleting category:', error);
+        toast.error(error.response.data.messages[0].message);
+        setOpen(false)
       }
     } else {
-      console.error('No category selected for deletion');
+      toast.error('دسته بندی ای برای حذف انتخاب نشده است');
     }
   }
 

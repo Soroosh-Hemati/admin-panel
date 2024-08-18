@@ -11,13 +11,15 @@ const cacheRtl = createCache({
 });
 
 
-function DropboxPrimary({ categories, onValueChange }) {
-  const [selectedCategory, setSelectedCategory] = useState('')
+function DropboxPrimary({ value, categories, onValueChange }) {
+  // const [selectedCategory, setSelectedCategory] = useState('')
 
   const handleChange = (event) => {
-    setSelectedCategory(event.target.value);
+    // setSelectedCategory(event.target.value);
     onValueChange(event.target.value);
   };
+  console.log(categories);
+  console.log(value);
 
   return (
     <CacheProvider value={cacheRtl}>
@@ -27,7 +29,7 @@ function DropboxPrimary({ categories, onValueChange }) {
         <Select
           labelId='category-select-label'
           label='انتخاب دسته بندی'
-          value={selectedCategory}
+          value={value}
           onChange={handleChange}
           direction='rtl'
           sx={{ margin: '1rem 0', width: '100%', minWidth: '800px' }}

@@ -8,21 +8,26 @@ import { useNavigate } from "react-router-dom"
 
 
 function AddNewArticle() {
-  const [articleTitle, setArticleTitle] = useState('')
-  const [articleContent, setArticleContent] = useState('')
-  const [articleImage, setArticleImage] = useState(null)
+  const [article, setArticle] = useState({
+    title: '',
+    content: '',
+    image: null
+  })
   const [hasError, setHasError] = useState(false);
   const navigate = useNavigate();
 
   const handleFilechange = (e) => {
     const file = e.target.files[0];
     if (file) {
-      setArticleImage(file)
+      setArticle(prevArticle => ({
+        ...prevArticle,
+        image: file,
+      }))
     }
   }
   const handleSubmit = async (e) => {
     e.preventDefault();
-    if (!articleTitle || !articleContent || !articleImage) {
+    if (!article.title || !article.content || !article.image) {
       setHasError(true)
       toast.error('فیلد موردنظر را تکمیل کنید')
       return
@@ -31,15 +36,17 @@ function AddNewArticle() {
     //form data
     const formData = new FormData();
     formData.append('userId', '4')
-    formData.append('title', articleTitle);
-    formData.append('content', articleContent);
-    formData.append('file', articleImage);
+    formData.append('title', article.title);
+    formData.append('content', article.content);
+    formData.append('file', article.image);
 
     try {
       const { data } = await httpService.addNewArticle(formData)
-      setArticleTitle('')
-      setArticleImage(null)
-      setArticleContent('')
+      setArticle({
+        title: '',
+        content: '',
+        image: null
+      })
       // console.log(data);
       toast.success(data.data[0].message);
       navigate('/app/articles')
@@ -56,8 +63,12 @@ function AddNewArticle() {
         sx={{ display: "flex", flexDirection: 'column', justifyContent: 'center', alignItems: "center" }}>
         <InputSecondary
           placeholder='نام مقاله'
-          value={articleTitle} type='text'
-          onChange={(e) => setArticleTitle(e.target.value)}
+          value={article.title} type='text'
+          onChange={(e) =>
+            setArticle(prevArticle => ({
+              ...prevArticle,
+              title: e.target.value
+            }))}
           hasError={hasError}
           multiline={false}
           name=''
@@ -69,9 +80,13 @@ function AddNewArticle() {
           hasError={hasError} />
         <InputSecondary
           placeholder='محتوای مقاله'
-          value={articleContent}
+          value={article.content}
           type='text'
-          onChange={(e) => setArticleContent(e.target.value)}
+          onChange={(e) =>
+            setArticle(prevArticle => ({
+              ...prevArticle,
+              content: e.target.value
+            }))}
           hasError={hasError}
           multiline={true}
           name=''
