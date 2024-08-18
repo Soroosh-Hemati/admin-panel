@@ -1,7 +1,48 @@
-import { Box, Button, Paper, Table, TableCell, TableContainer, TableHead, TableRow, Toolbar, Typography } from "@mui/material"
+import { Box, Button, Paper, Table, TableBody, TableCell, TableContainer, TableHead, TableRow, Toolbar, Typography } from "@mui/material"
+import { useEffect, useState } from "react"
 import { Link } from "react-router-dom"
+import httpService from "../../services/http";
+import ModalPrimary from "../../components/ModalPrimary";
 
 function UsersPage() {
+  const [users, setUsers] = useState([]);
+  const [selectedUser, setSelectedUser] = useState(null)
+  const [open, setOpen] = useState(false)
+
+  const handleOpen = (user) => {
+    setSelectedUser(user)
+    setOpen(true)
+  }
+  const handleClose = () => {
+    setOpen(false)
+    setSelectedUser(null)
+  }
+  const handleDeleteUser = async () => {
+    if (selectedUser) {
+      try {
+        const res = await httpService.deleteUser(selectedUser.id);
+        console.log('Category deleted:', res);
+        handleClose();
+        setUsers((prevUsers) =>
+          prevUsers.filter(user => user.id !== selectedUser.id)
+        );
+      } catch (error) {
+        console.error('Error deleting category:', error);
+      }
+    } else {
+      console.error('No category selected for deletion');
+    }
+  }
+
+  useEffect(() => {
+    const fetchUsers = async () => {
+      const { data } = await httpService.getAllUsers();
+      setUsers(data.data)
+    }
+    fetchUsers();
+  }, [])
+
+
   return (
     <><Box>
       <Typography variant="h6" color="secondary">لیست کاربران</Typography>
@@ -17,12 +58,29 @@ function UsersPage() {
               <TableCell align="right" sx={{ fontWeight: 'bold' }}>ایمیل</TableCell>
               <TableCell align="right" sx={{ fontWeight: 'bold' }}>نقش</TableCell>
               <TableCell align="right" sx={{ fontWeight: 'bold' }}>تاریخ ایجاد</TableCell>
-              <TableCell align="right" sx={{ fontWeight: 'bold' }}>عملیات</TableCell>
+              <TableCell align="right" sx={{ fontWeight: 'bold' }}></TableCell>
             </TableRow>
           </TableHead>
+          <TableBody>
+            {
+              users.map((user) => {
+                return <TableRow key={user.id}>
+                  <TableCell align="right">{user.fullName}</TableCell>
+                  <TableCell align="right">{user.email}</TableCell>
+                  <TableCell align="right">{`${user.isAdmin ? 'مدیر' : 'نویسنده'}`}</TableCell>
+                  <TableCell align="right">{user.id}</TableCell>
+                  <TableCell align="center">{<Toolbar>
+                    <Button component={Link} to={`/app/users/${user.id}`} variant="contained" color="success" sx={{ marginLeft: '1rem' }}>ویرایش</Button>
+                    <Button variant="contained" color="error" onClick={() => handleOpen(user)}>حذف</Button>
+                  </Toolbar>}
+                  </TableCell>
+                </TableRow>
+              })
+            }
+          </TableBody>
         </Table>
       </TableContainer>
-
+      <ModalPrimary open={open} onClose={handleClose} handleClose={handleClose} handleDelete={handleDeleteUser} />
     </Box>
     </>
   )

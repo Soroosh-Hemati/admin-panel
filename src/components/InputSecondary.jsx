@@ -9,7 +9,7 @@ const cacheRtl = createCache({
     stylisPlugins: [prefixer, rtlPlugin],
 });
 
-function InputSecondary({ placeholder, value, type, onChange, hasError, multiline }) {
+function InputSecondary({ placeholder, value, type, onChange, hasError, multiline, name }) {
     return (
         <CacheProvider value={cacheRtl}>
             <div dir='rtl'>
@@ -23,6 +23,7 @@ function InputSecondary({ placeholder, value, type, onChange, hasError, multilin
                     sx={{ margin: '1rem 0', width: '100%', minWidth: '800px' }}
                     multiline={multiline}
                     rows={4}
+                    name={name}
                 >
                 </TextField>
             </div>

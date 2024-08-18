@@ -72,10 +72,10 @@ function AddNewProduct() {
     <Box>
       <Typography variant="h6" color="secondary">اضافه کردن محصول</Typography>
       <Box component='form' onSubmit={handleSubmit} sx={{ display: "flex", flexDirection: 'column', justifyContent: 'center', alignItems: "center" }}>
-        <InputSecondary placeholder='نام محصول' value={productTitle} type='text' onChange={(e) => setProductTitle(e.target.value)} hasError={hasError} multiline={false} />
+        <InputSecondary placeholder='نام محصول' value={productTitle} type='text' onChange={(e) => setProductTitle(e.target.value)} hasError={hasError} multiline={false} name='' />
         <DropboxPrimary categories={categories} onValueChange={handleCategoryChange} />
         <InputFile helperText='عکس محصول را وارد کنید' type='file' onChange={handleFilechange} hasError={hasError} />
-        <InputSecondary placeholder='توضیحات' value={productDesc} type='text' onChange={(e) => setProductDesc(e.target.value)} hasError={hasError} multiline={false} />
+        <InputSecondary placeholder='توضیحات' value={productDesc} type='text' onChange={(e) => setProductDesc(e.target.value)} hasError={hasError} multiline={false} name='' />
         <Button variant='contained' type='submit'>ایجاد دسته بندی</Button>
       </Box>
     </Box>

@@ -20,6 +20,7 @@ import AddNewArticle from './pages/articles/AddNewArticle';
 import AddNewUser from './pages/users/AddNewUser'
 import SingleCategory from './pages/categories/SingleCategory';
 import SingleArticle from './pages/articles/SingleArticle';
+import SingleUser from './pages/users/SingleUser';
 
 const router = createBrowserRouter([
   {
@@ -83,6 +84,10 @@ const router = createBrowserRouter([
       {
         path: 'articles/:articleID',
         element: <SingleArticle />
+      },
+      {
+        path: 'users/:userID',
+        element: <SingleUser />
       }
     ]
   }

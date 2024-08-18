@@ -28,7 +28,7 @@ function CategoriesPage() {
   }, [])
 
   const handleDeleteCategory = async () => {
-    if (selectedCategory) {
+    if (selectedCategory) { 
       try {
         const res = await httpService.deleteCategory(selectedCategory.id);
         console.log('Category deleted:', res);

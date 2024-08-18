@@ -1,0 +1,12 @@
+.Toastify__toast-container--rtl {
+    direction: rtl;
+}
+
+.Toastify__toast--rtl {
+    text-align: right;
+}
+
+.Toastify__close-button--rtl {
+    right: auto;
+    left: 12px;
+}

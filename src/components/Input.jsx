@@ -9,7 +9,7 @@ const cacheRtl = createCache({
     stylisPlugins: [prefixer, rtlPlugin],
 });
 
-function Input({ placeholder, name, value, type, onChange, onBlur ,hasError}) {
+function Input({ placeholder, name, value, type, onChange, onBlur, hasError }) {
     return <CacheProvider value={cacheRtl}>
         <div dir='rtl'>
             <TextField

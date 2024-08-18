@@ -32,6 +32,7 @@ const LoginPage = () => {
     const formik = useFormik({
         initialValues,
         onSubmit: async values => {
+            // console.log(values);
             try {
                 const response = await httpService.login(values)
                 const { data } = response.data

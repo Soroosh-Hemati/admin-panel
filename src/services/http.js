@@ -1,6 +1,7 @@
 // src/axiosInstance.js
 import axios from "axios";
 import Cookies from "js-cookie";
+import AddNewUser from "../pages/users/AddNewUser";
 // Create an Axios instance
 const axiosInstance = axios.create({
   baseURL: "http://localhost:8008/api/", // Replace with your API base URL
@@ -65,6 +66,13 @@ const httpService = {
   getSingleArticle: async (id) => await axiosInstance.get(`article/${id}`),
   editArticle: async (id, data) =>
     await axiosInstance.put(`article/${id}`, data),
+  getAllUsers: async () => await axiosInstance.get("users"),
+  deleteUser: async (id) => await axiosInstance.delete(`user/${id}`),
+  addNewUser: async (data) => {
+    return axiosInstance.post("users/register", data, {
+      "Content-Type": "application/json",
+    });
+  },
 };
 
 export default httpService;

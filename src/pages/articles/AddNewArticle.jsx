@@ -59,7 +59,9 @@ function AddNewArticle() {
           value={articleTitle} type='text'
           onChange={(e) => setArticleTitle(e.target.value)}
           hasError={hasError}
-          multiline={false} />
+          multiline={false}
+          name=''
+        />
         <InputFile
           helperText='عکس مقاله را وارد کنید'
           type='file'
@@ -71,7 +73,9 @@ function AddNewArticle() {
           type='text'
           onChange={(e) => setArticleContent(e.target.value)}
           hasError={hasError}
-          multiline={true} />
+          multiline={true}
+          name=''
+        />
         <Button variant="contained" type="submit">ایجاد مقاله</Button>
       </Box>
     </Box>

@@ -13,6 +13,6 @@ root.render(
     <ThemeProvider theme={theme}>
       <App />
     </ThemeProvider>
-    <ToastContainer />
+    <ToastContainer rtl={true} />
   </React.StrictMode>,
 );
