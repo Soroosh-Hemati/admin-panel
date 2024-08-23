@@ -134,6 +134,14 @@ const Product = () => {
                 type='file'
                 onChange={handleFilechange}
                 hasError={hasError} />
+            <img style={{
+                width: '150px',
+                height: '100px',
+                borderRadius: '8px',
+                objectFit: 'cover',
+                border: '1px solid #ddd'
+            }}
+                src={`${product.url}`} />
             <InputSecondary
                 placeholder='توضیحات'
                 value={product.content}

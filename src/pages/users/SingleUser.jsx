@@ -7,6 +7,7 @@ import { useFormik } from 'formik'
 import * as Yup from 'yup'
 import httpService from '../../services/http'
 import { Flag } from '@mui/icons-material'
+import { toast } from 'react-toastify'
 
 const validationSchema = Yup.object({
     fullName: Yup.string().required('نام و نام خانوادگی را وارد کنید'),
@@ -21,27 +22,42 @@ const validationSchema = Yup.object({
 function SingleUser() {
     const navigate = useNavigate()
     const { userID } = useParams();
-    const [fullName, setFullName] = useState('')
-    const [email, setEmail] = useState('')
-    const [password, setPassword] = useState('')
-    const [confPassword, setConfPassword] = useState('')
-    const [isAdmin, setIsAdmin] = useState(0)
+    const [hasError, setHasError] = useState(false);
+    const [user, setUser] = useState({
+        id: null,
+        fullName: '',
+        email: '',
+        image: null,
+        url: null,
+        isAdmin: false,
+    })
 
     useEffect(() => {
         const fetchUser = async () => {
             const { data } = await httpService.getSingleUser(userID)
             console.log(data);
-            setFullName(data.data.fullName)
-            setEmail(data.data.email)
-            // setPassword(data.data.password)
-            // setConfPassword(data.data.confPassword)
-            setIsAdmin(data.data.isAdmin)
+            setUser(data.data)
+
         }
         fetchUser()
     }, [])
 
-    const handleSubmit = () => {
-
+    const handleSubmit = async (e) => {
+        e.preventDefault();
+        if (!user.fullName || !user.email) {
+            setHasError(true)
+            toast.error('فیلد موردنظر را تکمیل کنید')
+            return
+        }
+        setHasError(false)
+        try {
+            const { data } = await httpService.editUser(userID, user)
+            console.log(data);
+            toast.success(data.message);
+            navigate('/app/users')
+        } catch (error) {
+            toast.error(error.response.data.messages[0].message);
+        }
     }
 
     return (
@@ -51,20 +67,28 @@ function SingleUser() {
                 <InputSecondary
                     placeholder={'نام و نام خانوادگی'}
                     name="fullName"
-                    value={fullName}
+                    value={user.fullName}
                     type='text'
                     multiline={false}
-                    onChange={(e) => setFullName(e.target.value)}
-                    hasError={false}
+                    onChange={(e) =>
+                        setUser(prevUser => ({
+                            ...prevUser,
+                            fullName: e.target.value
+                        }))}
+                    hasError={hasError}
                 />
                 <InputSecondary
                     placeholder={'ایمیل'}
                     name="email"
-                    value={email}
+                    value={user.email}
                     type='text'
                     multiline={false}
-                    onChange={(e) => setEmail(e.target.value)}
-                    hasError={false}
+                    onChange={(e) =>
+                        setUser(prevUser => ({
+                            ...prevUser,
+                            email: e.target.value
+                        }))}
+                    hasError={hasError}
                 />
                 {/* <InputSecondary
                     placeholder={'گذرواژه'}
@@ -73,7 +97,7 @@ function SingleUser() {
                     type='text'
                     multiline={false}
                     onChange={(e) => setPassword(e.target.value)}
-                    hasError={false}
+                    hasError={hasError}
                 />
                 <InputSecondary
                     placeholder={'تکرار گذرواژه'}
@@ -82,12 +106,16 @@ function SingleUser() {
                     type='text'
                     multiline={false}
                     onChange={(e) => setConfPassword(e.target.value)}
-                    hasError={false}
+                    hasError={hasError}
                 /> */}
                 <SelectRole
                     name='isAdmin'
-                    value={isAdmin}
-                    onChange={(e) => setIsAdmin(e.target.value)}
+                    value={user.isAdmin}
+                    onChange={(e) =>
+                        setUser(prevUser => ({
+                            ...prevUser,
+                            isAdmin: e.target.value
+                        }))}
                 />
                 <Button variant="contained" type="submit">ویرایش کاربر</Button>
             </Box>

@@ -74,6 +74,7 @@ const httpService = {
     });
   },
   getSingleUser: async (id) => await axiosInstance.get(`users/user/${id}`),
+  editUser: async (id, data) => await axiosInstance.put(`users/${id}`, data),
 };
 
 export default httpService;

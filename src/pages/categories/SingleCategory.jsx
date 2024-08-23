@@ -37,7 +37,7 @@ function SingleCategory() {
         if (file) {
             setCategory(prevCategory => ({
                 ...prevCategory,
-                file
+                image: file
             }))
         }
     }
@@ -84,6 +84,14 @@ function SingleCategory() {
                     type='file'
                     onChange={handleFilechange}
                     hasError={hasError} />
+                <img style={{
+                    width: '150px',
+                    height: '100px',
+                    borderRadius: '8px',
+                    objectFit: 'cover',
+                    border: '1px solid #ddd'
+                }}
+                    src={`${category.url}`} />
                 <InputSecondary
                     placeholder='توضیحات'
                     value={category.description}
