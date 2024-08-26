@@ -66,9 +66,10 @@ function SingleCategory() {
     }
 
     return (
-        <Box>
+        <Box sx={{ width: '100%' }}>
             <Typography variant="h6" color="secondary">ویرایش دسته بندی</Typography>
-            <Box component='form' onSubmit={handleSubmit} sx={{ display: "flex", flexDirection: 'column', justifyContent: 'center', alignItems: "center" }}>
+            <Box component='form' onSubmit={handleSubmit} sx={{ width: '100%', display: "flex", flexDirection: 'column', justifyContent: 'center', alignItems: "center" }}>
+
                 <InputSecondary
                     placeholder='نام دسته بندی'
                     value={category.name}

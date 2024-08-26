@@ -60,7 +60,7 @@ function CategoriesPage() {
       <Button component={Link} to='addNewCategory' variant="contained">ایجاد دسته بندی جدید</Button>
     </Toolbar>
     <TableContainer component={Paper}>
-      <Table sx={{ minWidth: 650 }} aria-label="simple table">
+      <Table sx={{ minWidth: '650px' }} aria-label="simple table">
         <TableHead>
           <TableRow>
             <TableCell align="right" sx={{ fontWeight: 'bold' }}>نام</TableCell>
